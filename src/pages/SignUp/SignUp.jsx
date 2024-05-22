@@ -20,39 +20,39 @@ const SignUp = () => {
   const onSubmit = (data) => {
     createUser(data.email, data.password)
       .then((result) => {
-      const loggedUser = result?.user
-      console.log(loggedUser)
-      updateUserProfile(data.name, data.photoURL)
-        .then(() => {
-          reset()
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "User Created Successfully!",
-            showConfirmButton: false,
-            timer: 1500,
+        const loggedUser = result?.user
+        console.log(loggedUser)
+        updateUserProfile(data.name, data.photoURL)
+          .then(() => {
+            reset()
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "User Created Successfully!",
+              showConfirmButton: false,
+              timer: 1500,
+            })
           })
-        })
-        .catch((err) => {
-          Swal.fire({
-            position: "top-end",
-            icon: "error",
-            title: `${err.message}`,
-            showConfirmButton: false,
-            timer: 1500,
+          .catch((err) => {
+            Swal.fire({
+              position: "top-end",
+              icon: "error",
+              title: `${err.message}`,
+              showConfirmButton: false,
+              timer: 1500,
+            })
           })
-        })
-      navigate(from, { replace: true })
+        navigate(from, { replace: true })
       })
       .catch((err) => {
         Swal.fire({
-            position: "top-end",
-            icon: "error",
-            title: `${err.message}`,
-            showConfirmButton: false,
-            timer: 1500,
-          })
-    })
+          position: "top-end",
+          icon: "error",
+          title: `${err.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      })
   }
   return (
     <>
