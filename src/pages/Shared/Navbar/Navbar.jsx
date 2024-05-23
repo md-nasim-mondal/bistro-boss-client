@@ -40,10 +40,10 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink className='uppercase' to='/'>
+        <NavLink className='uppercase' to='/dashboard/cart'>
           <button className='btn'>
             <FaShoppingCart className='mr-2' />
-            <div className='badge badge-secondary'>{cart?.length}</div>
+            <div className='badge badge-secondary'>+{cart?.length}</div>
           </button>
         </NavLink>
       </li>
