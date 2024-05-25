@@ -8,6 +8,7 @@ import { AuthContext } from "../../providers/AuthProvider"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Helmet } from "react-helmet-async"
 import Swal from "sweetalert2"
+import SocialLogin from "../../components/SocialLogin/SocialLogin"
 
 const Login = () => {
   const [disabled, setDisabled] = useState(true)
@@ -118,9 +119,9 @@ const Login = () => {
                   className='input input-bordered'
                   required
                 />
-                <button className='btn btn-outline btn-xs mt-2'>
+                {/* <button className='btn btn-outline btn-xs mt-2'>
                   Validate
-                </button>
+                </button> */}
               </div>
               <div className='form-control mt-6'>
                 <input
@@ -139,6 +140,7 @@ const Login = () => {
                 </small>
               </p>
             </form>
+        <SocialLogin/>
           </div>
         </div>
       </div>

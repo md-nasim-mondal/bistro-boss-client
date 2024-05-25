@@ -7,42 +7,47 @@ import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
 import Dashboard from "../layouts/Dashboard";
 import Cart from "../pages/Dashboard/Cart/Cart";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Main></Main>,
     children: [
       {
-        path: '/',
-        element: <Home/>
+        path: "/",
+        element: <Home />,
       },
       {
-        path: '/menu',
-        element: <Menu/>
+        path: "/menu",
+        element: <Menu />,
       },
       {
-        path: '/order/:category',
-        element: <Order/>
+        path: "/order/:category",
+        element: <Order />,
       },
       {
-        path: 'login',
-        element: <Login/>
+        path: "login",
+        element: <Login />,
       },
       {
-        path: 'signup',
-        element: <SignUp/>
+        path: "signup",
+        element: <SignUp />,
       },
-    ]
+    ],
   },
   {
-    path: 'dashboard',
-    element: <Dashboard />,
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard />,
+      </PrivateRoute>
+    ),
     children: [
       {
-        path: 'cart',
-        element: <Cart/>
-      }
-    ]
-  }
-])
+        path: "cart",
+        element: <Cart />,
+      },
+    ],
+  },
+]);

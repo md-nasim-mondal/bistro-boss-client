@@ -1,37 +1,50 @@
-import { useContext } from "react"
-import { Helmet } from "react-helmet-async"
-import { useForm } from "react-hook-form"
-import { AuthContext } from "../../providers/AuthProvider"
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import Swal from "sweetalert2"
+import { useContext } from "react";
+import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
+import { AuthContext } from "../../providers/AuthProvider";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const from = location?.state?.from?.pathname || "/"
+  const from = location?.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm()
-  const { createUser, updateUserProfile } = useContext(AuthContext)
+  } = useForm();
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const onSubmit = (data) => {
     createUser(data.email, data.password)
       .then((result) => {
-        const loggedUser = result?.user
-        console.log(loggedUser)
+        const loggedUser = result?.user;
+        console.log(loggedUser);
         updateUserProfile(data.name, data.photoURL)
           .then(() => {
-            reset()
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "User Created Successfully!",
-              showConfirmButton: false,
-              timer: 1500,
-            })
+            // create user entry in the database
+
+            const userInfo = {
+              name: data.name,
+              email: data.email,
+            };
+            axiosPublic.post("/users", userInfo).then((res) => {
+              if (res.data.insertedId) {
+                reset();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "User Created Successfully!",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate(from, { replace: true });
+              }
+            });
           })
           .catch((err) => {
             Swal.fire({
@@ -40,9 +53,8 @@ const SignUp = () => {
               title: `${err.message}`,
               showConfirmButton: false,
               timer: 1500,
-            })
-          })
-        navigate(from, { replace: true })
+            });
+          });
       })
       .catch((err) => {
         Swal.fire({
@@ -51,9 +63,9 @@ const SignUp = () => {
           title: `${err.message}`,
           showConfirmButton: false,
           timer: 1500,
-        })
-      })
-  }
+        });
+      });
+  };
   return (
     <>
       <Helmet>
@@ -173,7 +185,7 @@ const SignUp = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
