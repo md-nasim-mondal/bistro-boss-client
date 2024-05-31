@@ -1,37 +1,37 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
   validateCaptcha,
-} from "react-simple-captcha"
-import { AuthContext } from "../../providers/AuthProvider"
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import { Helmet } from "react-helmet-async"
-import Swal from "sweetalert2"
-import SocialLogin from "../../components/SocialLogin/SocialLogin"
+} from "react-simple-captcha";
+import { AuthContext } from "../../providers/AuthProvider";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const Login = () => {
-  const [disabled, setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(true);
 
-  const { signIn } = useContext(AuthContext)
+  const { signIn } = useContext(AuthContext);
 
-  const navigate = useNavigate()
-  const location = useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const from = location?.state?.from?.pathname || "/"
+  const from = location?.state?.from?.pathname || "/";
 
   useEffect(() => {
-    loadCaptchaEnginge(6)
-  }, [])
+    loadCaptchaEnginge(6);
+  }, []);
   const handleLogin = (event) => {
-    event.preventDefault()
-    const form = event.target
-    const email = form.email.value
-    const password = form.password.value
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
     signIn(email, password)
       .then((result) => {
-        const user = result.user
-        console.log(user)
+        const user = result.user;
+        console.log(user);
         Swal.fire({
           title: "User Login Successful.",
           showClass: {
@@ -48,18 +48,18 @@ const Login = () => {
       animate__faster
     `,
           },
-        })
-        navigate(from, { replace: true })
+        });
+        navigate(from, { replace: true });
       })
-      .catch((err) => console.log(err.message))
-  }
+      .catch((err) => console.log(err.message));
+  };
 
   const handleValidateCaptcha = (e) => {
-    const user_captcha_value = e.target.value
+    const user_captcha_value = e.target.value;
     if (validateCaptcha(user_captcha_value)) {
-      setDisabled(false)
+      setDisabled(false);
     }
-  }
+  };
   return (
     <div>
       <Helmet>
@@ -94,7 +94,7 @@ const Login = () => {
                   <span className='label-text'>Password</span>
                 </label>
                 <input
-                  type='text'
+                  type='password'
                   name='password'
                   placeholder='password'
                   className='input input-bordered'
@@ -108,7 +108,7 @@ const Login = () => {
               </div>
               <div className='form-control'>
                 <label className='label'>
-                  <span className='label-text'>Password</span>
+                  <span className='label-text'>Captcha</span>
                 </label>
                 <LoadCanvasTemplate />
                 <input
@@ -140,12 +140,12 @@ const Login = () => {
                 </small>
               </p>
             </form>
-        <SocialLogin/>
+            <SocialLogin />
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
