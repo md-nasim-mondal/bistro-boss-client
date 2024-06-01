@@ -2,6 +2,7 @@ import {
   FaBook,
   FaCalendar,
   FaEnvelope,
+  FaHistory,
   FaHome,
   FaList,
   FaShoppingCart,
@@ -69,6 +70,12 @@ const Dashboard = () => {
                 <NavLink to='/dashboard/reservation'>
                   <FaCalendar />
                   Reservation
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to='/dashboard/paymentHistory'>
+                  <FaHistory />
+                  Payment History
                 </NavLink>
               </li>
               <li>
