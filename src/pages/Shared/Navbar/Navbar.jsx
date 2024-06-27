@@ -1,17 +1,19 @@
-import { useContext } from "react"
-import { NavLink } from "react-router-dom"
-import { AuthContext } from "../../../providers/AuthProvider"
-import { FaShoppingCart } from "react-icons/fa"
-import useCart from "../../../hooks/useCart"
+import { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../../providers/AuthProvider";
+import { FaShoppingCart } from "react-icons/fa";
+import useCart from "../../../hooks/useCart";
+import useAdmin from "../../../hooks/useAdmin";
 
 const Navbar = () => {
-  const { user, logOut } = useContext(AuthContext)
-  const [cart] = useCart()
+  const { user, logOut } = useContext(AuthContext);
+  const [isAdmin] = useAdmin();
+  const [cart] = useCart();
   const handleLogOut = () => {
     logOut()
       .then(() => {})
-      .catch((err) => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
   const navOptions = (
     <>
       <li>
@@ -24,11 +26,20 @@ const Navbar = () => {
           Contact Us
         </NavLink>
       </li>
-      <li>
-        <NavLink className='uppercase' to='/dashboard'>
-          Dashboard
-        </NavLink>
-      </li>
+      {user && isAdmin && (
+        <li>
+          <NavLink className='uppercase' to='/dashboard/adminHome'>
+            Dashboard
+          </NavLink>
+        </li>
+      )}
+      {user && !isAdmin && (
+        <li>
+          <NavLink className='uppercase' to='/dashboard/userHome'>
+            Dashboard
+          </NavLink>
+        </li>
+      )}
       <li>
         <NavLink className='uppercase' to='/menu'>
           Our Menu
@@ -39,17 +50,17 @@ const Navbar = () => {
           Order Food
         </NavLink>
       </li>
-      <li>
-        <NavLink className='uppercase' to='/dashboard/cart'>
-          <button className='btn'>
-            <FaShoppingCart className='mr-2' />
-            <div className='badge badge-secondary'>+{cart?.length}</div>
-          </button>
-        </NavLink>
-      </li>
 
       {user ? (
         <>
+          <li>
+            <NavLink className='uppercase' to='/dashboard/cart'>
+              <button className='btn'>
+                <FaShoppingCart className='mr-2' />
+                <div className='badge badge-secondary'>+{cart?.length}</div>
+              </button>
+            </NavLink>
+          </li>
           <li>
             <button onClick={handleLogOut} className='btn btn-ghost'>
               LogOut
@@ -66,7 +77,7 @@ const Navbar = () => {
         </>
       )}
     </>
-  )
+  );
   return (
     <div>
       <div className='navbar fixed z-10 bg-opacity-20 bg-black text-white max-w-screen-xl'>
@@ -103,7 +114,7 @@ const Navbar = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
